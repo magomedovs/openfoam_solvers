@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+UFieldVal       (#eval "1./sqrt(2.)" #eval "1./sqrt(2.)" 0); //(1 0 0);
+internalField   uniform ${UFieldVal};
+
+boundaryField
+{
+
+    ".*"
+    {
+//        type    fixedValue;
+//        value   $internalField;
+
+        type    cyclic;
+    }
+
+//    left
+//    {
+//        type            fixedValue;
+//        value           uniform ${UFieldVal};
+//    }
+//    right
+//    {
+//
+//        type            fixedValue;
+//        value           uniform ${UFieldVal};
+//    }
+//    top
+//    {
+////        type            fixedValue;
+////        value           uniform ${UFieldVal};
+//
+//        type            zeroGradient;
+//    }
+//    bottom
+//    {
+////        type            fixedValue;
+////        value           uniform ${UFieldVal};
+//
+//        type            zeroGradient;
+//    }
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //

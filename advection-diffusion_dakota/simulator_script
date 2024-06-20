@@ -1,0 +1,41 @@
+#!/bin/sh
+# Sample simulator to Dakota system call script
+# See Advanced Simulation Code Interfaces chapter in Users Manual
+
+# $1 is params.in FROM Dakota
+# $2 is results.out returned to Dakota
+
+# --------------
+# PRE-PROCESSING
+# --------------
+# Incorporate the parameters from DAKOTA into the template, writing X.in
+# Use the following line if SNL's APREPRO utility is used instead of DPrePro.
+# ../aprepro -c '*' -q --nowarning X.template X.in
+
+dprepro3 $1 setExprFieldsDict.template setExprFieldsDict.in
+
+# --------
+# ANALYSIS
+# --------
+
+echo " "
+echo "************************************"
+echo "Running simulation in directory: "
+pwd
+echo "************************************"
+echo " "
+
+cp -r ../casebase/* .
+cp setExprFieldsDict.in system/setExprFieldsDict
+
+./Allrun
+
+echo " "
+echo "************************************"
+echo "Finished simulation in directory:"
+pwd
+echo "************************************"
+echo " "
+# ---------------
+# POST-PROCESSING
+# ---------------

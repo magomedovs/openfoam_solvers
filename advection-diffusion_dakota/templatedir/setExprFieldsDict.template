@@ -1,0 +1,72 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      setExprFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+    T
+    {
+        field       T;
+        dimensions  [0 0 0 1 0 0 0];
+
+        constants
+        {
+            centre_1 ({c1_x} {c1_y} 0); // (#eval "rand()" #eval "rand()" 0); // choose some value in the square [0, 1]^2
+            centre_2 ({c2_x} {c2_y} 0); // (#eval "rand()" #eval "rand()" 0); // choose some value in the square [0, 1]^2
+            centre_3 ({c3_x} {c3_y} 0); // (#eval "rand()" #eval "rand()" 0); // choose some value in the square [0, 1]^2
+           
+            radius_1 {r1};         // (#eval "rand() * (0.2 - 0.03) + 0.03"); // choose some value from the range (0.03, 0.2)
+            radius_2 {r2};         // (#eval "rand() * (0.2 - 0.03) + 0.03"); // choose some value from the range (0.03, 0.2)
+            radius_3 {r3};         // (#eval "rand() * (0.2 - 0.03) + 0.03"); // choose some value from the range (0.03, 0.2)
+        }
+
+        variables
+        (
+            "Ampl_1 = {a1}"
+            "Ampl_2 = {a2}"
+            "Ampl_3 = {a3}"
+        );
+
+        expression
+        #{
+            Ampl_1 * exp(-( ( sqr(pos().x() - $[(vector)constants.centre_1].x()) +
+                            sqr(pos().y() - $[(vector)constants.centre_1].y()) ) / sqr($[(scalar)constants.radius_1]) ))
+            +
+            Ampl_2 * exp(-( ( sqr(pos().x() - $[(vector)constants.centre_2].x()) +
+                            sqr(pos().y() - $[(vector)constants.centre_2].y()) ) / sqr($[(scalar)constants.radius_2]) ))
+            +
+            Ampl_3 * exp(-( ( sqr(pos().x() - $[(vector)constants.centre_3].x()) +
+                            sqr(pos().y() - $[(vector)constants.centre_3].y()) ) / sqr($[(scalar)constants.radius_3]) ))
+        #};
+    }
+
+    U
+    {
+        field       U;
+        dimensions  [0 1 -1 0 0 0 0];
+
+        expression
+        #{
+//            vector(1, 1, 0)
+//            vector(1 / sqrt(2), (0.5 + 0.5 * sin(8 * pi() * pos().x())) / sqrt(2), 0)
+            vector((0.6 + 0.4 * sin(4 * pi() * pos().y())) / sqrt(2), (0.5 + 0.5 * sin(8 * pi() * pos().x())) / sqrt(2), 0)
+        #};
+    }
+
+
+);
+
+
+// ************************************************************************* //

@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type surfaces;
+
+// Surface output format. Choice of
+//      none        : suppress output
+//      ensight     : Ensight Gold format, one field per case file
+//      foamFile    : separate points, faces and values file
+//      dx          : DX scalar or vector format
+//      vtk         : VTK ascii format
+//      raw         : x y z value format for use with e.g. gnuplot 'splot'.
+//
+// Note:
+// other formats such as obj, stl, etc can also be written (by proxy)
+// but without any values!
+
+surfaceFormat raw;
+
+
+interpolationScheme cell;
+
+// Fields to sample.
+fields
+(
+    T
+);
+
+// Surface sampling definition
+surfaces
+{
+    constantPlane
+    {
+        type            cuttingPlane;
+        // type            plane;    // always triangulated
+        planeType       pointAndNormal;
+
+        pointAndNormalDict
+        {
+            point       (0.001 0.0013 0.5003);
+            normal      (0 0 1);
+        }
+
+        // interpolate     false;
+        // triangulate     true;
+    }
+}
+
+// *********************************************************************** //

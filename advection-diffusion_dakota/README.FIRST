@@ -1,0 +1,50 @@
+How to run me:
+
+dakota -i dakota_case.in
+
+or
+
+dakota -i dakota_case.in | tee log.dakota
+dakota -i dakota_case.in -o log.dakota_stdout > log.stdout | tail -f log.stdout
+dakota -i dakota_case.in -o log.dakota_stdout | tee log.dakota
+dakota -i dakota_case.in -o log.dakota_stdout -e log.dakota_stderror | tee log.stdout
+dakota -i dakota_case.in -o log.dakota_stdout -e log.dakota_stderror > log.stdout 2>&1
+dakota -i dakota_case.in -o log.dakota_stdout -e log.dakota_stderror 2>&1 | tee log.stdout     #Maybe the best option
+
+
+
+
+
+This case will run a gradient based optimization method.
+
+There is only one design variable.
+
+
+
+
+
+Dakota will first read the dakota_cavity_gradient.in input file, in this file we setup the case.
+
+For this specific case we use conmin_frcg method.  This is a gradient based optimization case.
+
+We use the Fletcher-Reeves conjugate gradient to find the optimal solution of a bounded unconstrained problem.
+
+The case consist of only one design variable named x1 and the initial value is equal to -1.8.  The design variable is bounded between -2 and 3 (variables section)
+
+Dakota interface with openfoam using the fork script system, where it calls the script simulator_script, where we define how to run the simulation and what to do or in other words, pre-processing, solution and post-processing (interface section).
+
+As this is a gradient based optimization study we need to compute the numerical gradients, we also define the sense of the optimization (is a maximization problem).  We define this in the  responses section.
+
+The script simulator_script first invoke the utility dprepro which manage dakota and the template files to run the study.  dprepro will create the params.in file used by dakota and will copy the template U.template (located in the directory templatedir), into U.in and it will replace any appearance of x1 in U.in by the design variable value used in dakota.  
+
+Notice that in the file U.template, we defined for the movingWall bc, the variable {x1} (which has the same name as in the dakota_cavity_gradient.in).  For each iteration, dprepro do the same.
+
+After invoking dprepro in the script simulator_script, we proceed to run the case and do some post-processing.  Each case is run on its own directory (workdir.#, as defined in dakota_cavity_gradient.in).
+
+In the casebase folder we have the predefined case, this folder is copied into each directory created by dakota and the simulation is run there.  Notice that we also copy U.in into the case so we always get the updated value of the design variable.
+
+All the values used in each evaluation are saved in the file table_out.dat.  That is:  design variables and objective function values (in and out).  This is defined in the entry environment in the file dakota_cavity_gradient.in
+
+At the end of the simulation, dakota will give you the information of the best objective function and design variables (do not forget, this info is also saved in table_out.dat).   Also, all the information of the gradient computed and function evaluation is saved in the file run.out.  If you do not use the option -o run.out this information is not saved and is only shown on the screen.
+
+The script dakota_cleanup, will erase all the files and directories created during this simulation.
