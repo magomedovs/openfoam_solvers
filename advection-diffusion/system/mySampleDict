@@ -5,13 +5,13 @@
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
-FoamFile
-{
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    object      sampleDict;
-}
+// FoamFile
+// {
+//     version     2.0;
+//     format      ascii;
+//     class       dictionary;
+//     object      sampleDict;
+// }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 type surfaces;
@@ -27,7 +27,6 @@ type surfaces;
 // Note:
 // other formats such as obj, stl, etc can also be written (by proxy)
 // but without any values!
-
 surfaceFormat raw;
 
 

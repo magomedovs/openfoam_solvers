@@ -34,7 +34,7 @@ purgeWrite      0;
 
 writeFormat     ascii;
 
-/* graphFormat     gnuplot; */
+// graphFormat     gnuplot;
 
 writePrecision  6;
 
@@ -46,46 +46,60 @@ timePrecision   6;
 
 runTimeModifiable true;
 
-
-/* functions
+functions
 {
     mySurfaceCut
     {
         functionObjectLibs ("function_object_library.so");
-        enabled     true;
+        enabled         true;
         
-        startFrom       0; //$startTime;
+        startFrom       $startTime;
         writeControl    $writeControl; //timeStep;
         writeInterval   $writeInterval; //200;
 
-        type surfaces;
-
-        surfaceFormat raw;
-
-
-        interpolationScheme cell;
-
-        fields
-        (
-            T
-        );
-
-        surfaces
-        {
-            constantPlane
-            {
-                type            cuttingPlane;
-                planeType       pointAndNormal;
-
-                pointAndNormalDict
-                {
-                    point       (0.001 0.0013 0.5003);
-                    normal      (0 0 1);
-                }
-            }
-        }
+        #include "mySampleDict"
     }
-} */
+}
+
+// functions
+// {
+//     mySurfaceCut
+//     {
+//         functionObjectLibs ("function_object_library.so");
+//         enabled     true;
+        
+//         startFrom       0; //$startTime;
+//         writeControl    $writeControl; //timeStep;
+//         writeInterval   $writeInterval; //200;
+
+//         type surfaces;
+
+//         surfaceFormat raw;
+
+
+//         interpolationScheme cell;
+
+//         fields
+//         (
+//             T
+//         );
+
+//         surfaces
+//         {
+//             constantPlane
+//             {
+//                 type            cuttingPlane;
+//                 planeType       pointAndNormal;
+
+//                 pointAndNormalDict
+//                 {
+//                     point       (0.001 0.0013 0.5003);
+//                     normal      (0 0 1);
+//                 }
+//             }
+//         }
+//     }
+// }
 
 
 // ************************************************************************* //

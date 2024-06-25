@@ -7,9 +7,11 @@ runApplication blockMesh
 restore0Dir
 runApplication setExprFields #setFields
 
+postProcess -func mySampleDict -time 0
+
 runApplication `getApplication`
 
-postProcess -func mySampleDict #-latestTime
+# postProcess -func mySampleDict #-latestTime
 
 touch foam.foam
 #------------------------------------------------------------------------------
