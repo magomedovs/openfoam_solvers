@@ -50,7 +50,7 @@ functions
 {
     mySurfaceCut
     {
-        functionObjectLibs ("function_object_library.so");
+        libs (fieldFunctionObjects);
         enabled         true;
         
         startFrom       $startTime;
@@ -65,7 +65,7 @@ functions
 // {
 //     mySurfaceCut
 //     {
-//         functionObjectLibs ("function_object_library.so");
+//         libs (fieldFunctionObjects);
 //         enabled     true;
         
 //         startFrom       0; //$startTime;
